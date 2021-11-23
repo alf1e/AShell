@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -18,7 +19,14 @@ func main() {
 		// convert CRLF to LF
 		text = strings.Replace(text, "\n", "", -1)
 		parseText(text)
-		fmt.Println(text)
+		cmd := exec.Command(fmt.Sprintf("/usr/bin/%s", text))
+		stdout, err := cmd.Output()
+
+		if err != nil {
+			fmt.Println(err.Error())
+		} else {
+			fmt.Print(string(stdout))
+		}
 	}
 }
 
